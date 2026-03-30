@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videoclub</title>
+    <link rel="stylesheet" href="style.css?v=6">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+
+    <div class="logo" onclick="goHome(); closeMobileNav();" style="cursor:pointer">
+        🎮 Videoclub
+    </div>
+
+    <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-actions" id="navActions">
+
+        <div class="lang-switcher">
+            <button id="langSwEs"  class="lang-sw-btn lang-sw-active" onclick="applyLang('es')">ES</button>
+            <button id="langSwJa"  class="lang-sw-btn"                onclick="applyLang('ja')">JP</button>
+            <button id="langSwElv" class="lang-sw-btn"                onclick="applyLang('elv')">ELV</button>
+        </div>
+
+        <button class="nav-link" onclick="showCatalog()" data-i18n="navCatalog">Catálogo</button>
+
+        <button class="nav-link" onclick="showContacto()" data-i18n="navContact">Contacto</button>
+
+        <button id="btnLogin" onclick="showUserAuth()" data-i18n="navLogin">Entrar</button>
+
+        <button id="btnMyAccount" class="hidden" onclick="showUserProfile()" data-i18n="navMyAccount">Mi cuenta</button>
+
+        <button id="btnAdminPanel" class="hidden" onclick="goAdminPanel()" data-i18n="navAdmin">Panel Admin</button>
+
+        <button id="btnLogout" class="hidden" onclick="logout()" data-i18n="navLogout">Cerrar sesión</button>
+
+    </div>
+
+</nav>
+
+
+<!-- CONTACTO -->
+
+<section id="contacto" class="hidden">
+    <div class="contact-layout">
+        <div class="contact-map">
+            <iframe
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-2.9600%2C43.2400%2C-2.8900%2C43.2750&layer=mapnik&marker=43.2627%2C-2.9253"
+                style="border:0;width:100%;height:100%;"
+                allowfullscreen
+                loading="lazy">
+            </iframe>
+        </div>
+        <div class="contact-form-wrap">
+            <h2 data-i18n="contactTitle">Contacta con nosotros</h2>
+            <p class="contact-subtitle" data-i18n="contactSub">¿Tienes alguna duda, sugerencia o incidencia? Escríbenos y te responderemos lo antes posible.</p>
+            <div class="contact-field">
+                <label data-i18n="labelName">Nombre</label>
+                <input id="contactName" type="text" data-i18n-ph="phContactName" placeholder="Tu nombre">
+            </div>
+            <div class="contact-field">
+                <label>Email</label>
+                <input id="contactEmail" type="email" placeholder="tu@email.com">
+            </div>
+            <div class="contact-field">
+                <label data-i18n="labelMessage">Mensaje</label>
+                <textarea id="contactMessage" rows="5" data-i18n-ph="phContactMsg" placeholder="Escribe tu mensaje aquí..."></textarea>
+            </div>
+            <button onclick="submitContact()" data-i18n="btnContactSend">Enviar mensaje</button>
+            <p id="contactFeedback" class="contact-feedback hidden"></p>
+        </div>
+    </div>
+</section>
+
+<!-- LANDING -->
+
+<section id="landing">
+
+    <div class="hero">
+
+        <h1 data-i18n-html="heroTitleHtml">Tu <span>videoclub</span> digital</h1>
+
+        <p data-i18n-html="heroSubHtml">
+            Descubre, reserva y disfruta los mejores títulos.<br>
+            Siempre disponible, sin desplazamientos.
+        </p>
+
+        <button onclick="showCatalog()" data-i18n="heroBtn">Explorar catálogo →</button>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <strong>100+</strong>
+                <span data-i18n="statTitles">Títulos</span>
+            </div>
+            <div class="hero-stat">
+                <strong id="heroPriceFrom">€1.99</strong>
+                <span data-i18n="statFrom">Desde</span>
+            </div>
+            <div class="hero-stat">
+                <strong data-i18n="heroDays">7 días</strong>
+                <span data-i18n="statRental">Por alquiler</span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Login / Register -->
+
+<section id="userAuth" class="hidden">
+
+    <div class="auth-card">
+
+        <div class="auth-tabs">
+            <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')" data-i18n="tabLogin">Iniciar sesión</button>
+            <button id="tabRegister" class="tab-btn" onclick="switchTab('register')" data-i18n="tabRegister">Registrarse</button>
+        </div>
+
+        <div id="formLogin">
+            <input id="loginUser" data-i18n-ph="phUsername" placeholder="Usuario">
+            <input id="loginPass" type="password" data-i18n-ph="phPassword" placeholder="Contraseña">
+            <button onclick="userLogin()" data-i18n="btnEnter">Entrar</button>
+        </div>
+
+        <div id="formRegister" class="hidden">
+            <input id="regName"    data-i18n-ph="phName"    placeholder="Nombre *" required>
+            <input id="regSurname" data-i18n-ph="phSurname" placeholder="Apellidos *" required>
+            <input id="regEmail"   type="email" data-i18n-ph="phEmail" placeholder="Email *" required>
+            <input id="regUser"    data-i18n-ph="phUser"    placeholder="Usuario *" required>
+            <input id="regPass"    type="password" data-i18n-ph="phPass" placeholder="Contraseña * (mín. 6 caracteres)" required minlength="6">
+            <p class="form-hint" data-i18n="formRequired">* Todos los campos son obligatorios</p>
+            <button onclick="userRegister()" data-i18n="btnCreateAccount">Crear cuenta</button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CATÁLOGO -->
+
+<section id="catalog" class="hidden">
+
+    <div class="catalog-header">
+        <h2 data-i18n="catalogTitle">Catálogo de juegos</h2>
+    </div>
+
+    <input id="search" data-i18n-ph="phSearchGame" placeholder="Buscar juego">
+
+    <div id="games"></div>
+    <div id="catalogPagination" class="pagination-controls"></div>
+
+</section>
+
+
+<!-- Perfil de Usuario -->
+
+<section id="userProfile" class="hidden">
+
+    <div id="profileInfo" class="profile-header"></div>
+
+    <div class="profile-tabs">
+        <button id="tabActive"  class="tab-btn active" onclick="switchRentalTab('active')"  data-i18n="tabActiveRentals">Alquileres activos</button>
+        <button id="tabHistory" class="tab-btn"        onclick="switchRentalTab('history')" data-i18n="tabHistory">Historial</button>
+    </div>
+
+    <div id="activeRentals"></div>
+
+    <div id="historyRentals" class="hidden"></div>
+
+</section>
+
+
+<!-- Panel de Admin -->
+
+<section id="adminPanel" class="hidden">
+
+    <h2 data-i18n="adminTitle">Panel administrador</h2>
+
+    <div class="admin-tabs">
+        <button id="tabGames"   class="tab-btn active" onclick="switchAdminTab('games')"   data-i18n="adminTabGames">Juegos</button>
+        <button id="tabRentals" class="tab-btn"        onclick="switchAdminTab('rentals')" data-i18n="adminTabRentals">Alquileres</button>
+        <button id="tabUsers"   class="tab-btn"        onclick="switchAdminTab('users')"   data-i18n="adminTabUsers">Usuarios</button>
+    </div>
+
+    <!-- Juegos -->
+    <div id="adminTabGames">
+        <div class="admin-grid">
+
+            <div>
+                <h3 data-i18n="adminCreateGame">Crear juego</h3>
+                <input id="title"       data-i18n-ph="phTitle"    placeholder="Título">
+                <input id="platform"    data-i18n-ph="phPlatform" placeholder="Plataforma">
+                <input id="genre"       data-i18n-ph="phGenre"    placeholder="Género">
+                <input id="producer"    data-i18n-ph="phProducer" placeholder="Productora">
+                <input id="pegi"        data-i18n-ph="phPegi"     placeholder="PEGI (ej: 18)">
+                <input id="releaseDate" type="date" placeholder="Fecha de lanzamiento">
+                <input id="price"       data-i18n-ph="phPrice"    placeholder="Precio alquiler (ej: 3.99)">
+                <input id="coverUrl"    data-i18n-ph="phCover"    placeholder="URL de portada">
+                <textarea id="description" data-i18n-ph="phDesc"  placeholder="Descripción" rows="3"></textarea>
+                <input id="copies" type="number" min="1" value="1" data-i18n-ph="phCopies" placeholder="Nº de copias">
+                <button onclick="createGame()" data-i18n="btnCreateGame">Crear juego</button>
+            </div>
+
+            <div>
+                <h3 data-i18n="adminGamesList">Lista de juegos</h3>
+                <div id="adminGames"></div>
+            </div>
+
+        </div>
+
+        <!-- TheGamesDB Buscador -->
+        <div class="gdb-search-panel">
+            <div class="gdb-search-header">
+                <h3 data-i18n="gdbTitle">Buscar en TheGamesDB</h3>
+                <div class="gdb-search-row">
+                    <input id="gdbSearch" data-i18n-ph="phGdbSearch" placeholder="Buscar juego en TheGamesDB...">
+                    <button onclick="searchGamesDb()" data-i18n="btnSearch">Buscar</button>
+                </div>
+                <div class="lang-selector">
+                    <span class="lang-label" data-i18n="descLangLabel">Traducir descripción a:</span>
+                    <button id="langEs"  class="lang-btn lang-active" onclick="setTranslationLang('es',  this)">🇪🇸 Español</button>
+                    <button id="langJa"  class="lang-btn"             onclick="setTranslationLang('ja',  this)">🇯🇵 Japonés</button>
+                    <button id="langElv" class="lang-btn"             onclick="setTranslationLang('elv', this)">🧝 Élfico</button>
+                </div>
+            </div>
+            <div id="gdbResults"></div>
+        </div>
+
+    </div>
+
+    <!-- Alquileres -->
+    <div id="adminTabRentals" class="hidden">
+        <div class="admin-list-panel">
+            <h3 data-i18n="adminRentalsTitle">Todos los alquileres</h3>
+            <div id="adminRentalsList"></div>
+        </div>
+    </div>
+
+    <!-- Usuarios -->
+    <div id="adminTabUsers" class="hidden">
+        <div class="admin-grid">
+
+            <div>
+                <h3 data-i18n="adminCreateUser">Crear usuario</h3>
+                <input id="newUserName"     data-i18n-ph="phNewName"     placeholder="Nombre">
+                <input id="newUserSurname"  data-i18n-ph="phNewSurname"  placeholder="Apellidos">
+                <input id="newUserEmail"    type="email" data-i18n-ph="phNewEmail" placeholder="Email">
+                <input id="newUserUsername" data-i18n-ph="phNewUsername" placeholder="Usuario">
+                <input id="newUserPassword" type="password" data-i18n-ph="phNewPassword" placeholder="Contraseña">
+                <select id="newUserRole">
+                    <option value="USER"  data-i18n="optionUser">Usuario</option>
+                    <option value="ADMIN" data-i18n="optionAdmin">Administrador</option>
+                </select>
+                <button onclick="adminCreateUser()" data-i18n="btnCreateUser">Crear usuario</button>
+            </div>
+
+            <div>
+                <h3 data-i18n="adminUsersList">Usuarios registrados</h3>
+                <div id="adminUsersList"></div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- Dellate Juego -->
+<div id="gameDetailModal" class="modal-overlay hidden" onclick="closeDetailModal(event)">
+    <div class="modal-card modal-detail">
+        <div class="detail-cover-wrap">
+            <img id="detailCover" src="" alt="" onerror="this.style.display='none'">
+        </div>
+        <div class="detail-body">
+            <h2 id="detailTitle"></h2>
+            <div class="detail-meta">
+                <span id="detailPlatform" class="detail-tag"></span>
+                <span id="detailGenre" class="detail-tag"></span>
+                <span id="detailPegi" class="detail-tag detail-tag-pegi"></span>
+            </div>
+            <p id="detailProducer" class="detail-producer"></p>
+            <p id="detailRelease" class="detail-release"></p>
+            <p id="detailDescription" class="detail-description"></p>
+            <div class="detail-footer">
+                <span id="detailPrice" class="detail-price"></span>
+                <span id="detailCopies" class="detail-copies"></span>
+            </div>
+            <div id="detailActions" class="detail-actions"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Editar -->
+<div id="editModal" class="modal-overlay hidden">
+    <div class="modal-card">
+        <h3 data-i18n="modalEditTitle">Editar juego</h3>
+        <input id="editTitle"       data-i18n-ph="phTitle"    placeholder="Título">
+        <input id="editPlatform"    data-i18n-ph="phPlatform" placeholder="Plataforma">
+        <input id="editGenre"       data-i18n-ph="phGenre"    placeholder="Género">
+        <input id="editProducer"    data-i18n-ph="phProducer" placeholder="Productora">
+        <input id="editPegi"        data-i18n-ph="phPegi"     placeholder="PEGI">
+        <input id="editReleaseDate" type="date">
+        <textarea id="editDescription" rows="4" data-i18n-ph="phDesc" placeholder="Descripción"></textarea>
+        <div class="modal-actions">
+            <button class="btn-ghost" onclick="closeEditModal()" data-i18n="btnCancel">Cancelar</button>
+            <button onclick="submitEditGame()" data-i18n="btnSave">Guardar cambios</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6Lefq44sAAAAAGFi4YEtd9QEYIbUHfD5QE8wBEV0"></script>
+<script src="app.js?v=7"></script>
+<script>
+function toggleMobileNav() {
+    const nav = document.getElementById('navActions');
+    const btn = document.getElementById('navHamburger');
+    const isOpen = nav.classList.toggle('mobile-open');
+    btn.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+function closeMobileNav() {
+    const nav = document.getElementById('navActions');
+    const btn = document.getElementById('navHamburger');
+    if (!nav) return;
+    nav.classList.remove('mobile-open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('navActions').addEventListener('click', function (e) {
+        const btn = e.target.closest('button');
+        if (btn && !btn.closest('.lang-switcher')) closeMobileNav();
+    });
+    document.addEventListener('click', function (e) {
+        const nav = document.getElementById('navActions');
+        const hamburger = document.getElementById('navHamburger');
+        if (nav.classList.contains('mobile-open') &&
+            !nav.contains(e.target) &&
+            !hamburger.contains(e.target)) {
+            closeMobileNav();
+        }
+    });
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) closeMobileNav();
+    });
+});
+</script>
+
+<!-- COOKIES -->
+<div id="cookieBanner" class="cookie-banner">
+
+    <div id="cookieSimple" class="cookie-simple">
+        <div class="cookie-text">
+            <span class="cookie-icon">🍪</span>
+            <div>
+                <strong data-i18n="cookieTitle">Usamos cookies</strong>
+                <p data-i18n="cookieText">Utilizamos cookies propias y de terceros para mejorar tu experiencia. Puedes aceptarlas todas o personalizar cuáles permites.</p>
+            </div>
+        </div>
+        <div class="cookie-actions">
+            <button class="cookie-btn-outline" onclick="cookieRejectAll()"  data-i18n="btnRejectAll">Rechazar todo</button>
+            <button class="cookie-btn-outline" onclick="cookieShowPrefs()"  data-i18n="btnCustomize">Personalizar</button>
+            <button class="cookie-btn-accept"  onclick="cookieAcceptAll()"  data-i18n="btnAcceptAll">Aceptar todo</button>
+        </div>
+    </div>
+
+    <div id="cookiePrefs" class="cookie-prefs hidden">
+        <h3 class="cookie-prefs-title" data-i18n="cookiePrefsTitle">Preferencias de cookies</h3>
+
+        <div class="cookie-option">
+            <div class="cookie-option-info">
+                <span class="cookie-option-name" data-i18n="cookieNecessary">Necesarias</span>
+                <span class="cookie-option-desc" data-i18n="cookieNecessaryDesc">Imprescindibles para el funcionamiento de la web. No se pueden desactivar.</span>
+            </div>
+            <div class="cookie-toggle cookie-toggle-on cookie-toggle-disabled">
+                <div class="cookie-toggle-thumb"></div>
+            </div>
+        </div>
+
+        <div class="cookie-option">
+            <div class="cookie-option-info">
+                <span class="cookie-option-name" data-i18n="cookieAnalytics">Analíticas</span>
+                <span class="cookie-option-desc" data-i18n="cookieAnalyticsDesc">Nos ayudan a entender cómo usas la web para mejorarla.</span>
+            </div>
+            <div class="cookie-toggle" id="toggleAnalytics" onclick="cookieToggle('analytics')">
+                <div class="cookie-toggle-thumb"></div>
+            </div>
+        </div>
+
+        <div class="cookie-option">
+            <div class="cookie-option-info">
+                <span class="cookie-option-name" data-i18n="cookieMarketing">Marketing</span>
+                <span class="cookie-option-desc" data-i18n="cookieMarketingDesc">Permiten mostrarte contenido y anuncios personalizados.</span>
+            </div>
+            <div class="cookie-toggle" id="toggleMarketing" onclick="cookieToggle('marketing')">
+                <div class="cookie-toggle-thumb"></div>
+            </div>
+        </div>
+
+        <div class="cookie-prefs-actions">
+            <button class="cookie-btn-outline" onclick="cookieBackSimple()" data-i18n="btnBack">Volver</button>
+            <button class="cookie-btn-accept"  onclick="cookieSavePrefs()"  data-i18n="btnSavePrefs">Guardar preferencias</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const cookiePrefsState = { analytics: false, marketing: false };
+
+    function cookieHideBanner() {
+        document.getElementById('cookieBanner').classList.add('cookie-hidden');
+    }
+
+    function cookieAcceptAll() {
+        localStorage.setItem('cookieConsent', JSON.stringify({ necessary: true, analytics: true, marketing: true }));
+        cookieHideBanner();
+    }
+
+    function cookieRejectAll() {
+        localStorage.setItem('cookieConsent', JSON.stringify({ necessary: true, analytics: false, marketing: false }));
+        cookieHideBanner();
+    }
+
+    function cookieShowPrefs() {
+        document.getElementById('cookieSimple').classList.add('hidden');
+        document.getElementById('cookiePrefs').classList.remove('hidden');
+    }
+
+    function cookieBackSimple() {
+        document.getElementById('cookiePrefs').classList.add('hidden');
+        document.getElementById('cookieSimple').classList.remove('hidden');
+    }
+
+    function cookieToggle(type) {
+        cookiePrefsState[type] = !cookiePrefsState[type];
+        const el = document.getElementById('toggle' + type.charAt(0).toUpperCase() + type.slice(1));
+        el.classList.toggle('cookie-toggle-on', cookiePrefsState[type]);
+    }
+
+    function cookieSavePrefs() {
+        localStorage.setItem('cookieConsent', JSON.stringify({ necessary: true, ...cookiePrefsState }));
+        cookieHideBanner();
+    }
+
+    if (!localStorage.getItem('cookieConsent')) {
+        document.getElementById('cookieBanner').classList.remove('cookie-hidden');
+    } else {
+        cookieHideBanner();
+    }
+</script>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+
+    <div class="footer-bar">
+
+        <span class="footer-brand" data-i18n-html="footerBrandHtml">🎮 Videoclub · Desarrollado por <strong>Bilbo</strong></span>
+
+        <div class="footer-links">
+            <a href="mailto:info@videoclub-bilbo.com">📧 info@videoclub-bilbo.com</a>
+            <span class="footer-sep">|</span>
+            <a href="tel:+34944000000">📞 +34 944 00 00 00</a>
+            <span class="footer-sep">|</span>
+            <a href="tel:+34600000000">📱 +34 600 00 00 00</a>
+            <span class="footer-sep">|</span>
+            <a href="https://www.openstreetmap.org/?mlat=43.263&mlon=-2.925#map=15/43.263/-2.925" target="_blank" rel="noopener">📍 Gran Vía 1, Bilbao</a>
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
